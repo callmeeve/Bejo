@@ -21,7 +21,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<String> getChatbotResponse(String message) async {
     const apiUrl = 'https://api.openai.com/v1/chat/completions';
     const apiKey =
-        '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'; // Ganti dengan kunci API ChatGPT Anda
+        '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'; // Ganti dengan kunci API ChatGPT Anda
     const model = 'gpt-3.5-turbo'; // Model yang akan digunakan
 
     final response = await http.post(Uri.parse(apiUrl),

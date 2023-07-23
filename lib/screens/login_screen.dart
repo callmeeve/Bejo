@@ -1,278 +1,251 @@
 import 'package:bejo/components/bottom_bar.dart';
+import 'package:bejo/components/customized_button.dart';
+import 'package:bejo/components/customized_textfield.dart';
 import 'package:bejo/screens/register_screen.dart';
+import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const LoginScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _LoginScreenState createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool _showPassword = false;
-  void _togglevisibility() {
-    setState(() {
-      _showPassword = !_showPassword;
-    });
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+
+    super.dispose();
   }
+
+  // void _showDialog(bool isSuccess) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: isSuccess
+  //             ? const Text('Login Success')
+  //             : const Text('Login Failed'),
+  //         content: isSuccess
+  //             ? const Text('You have successfully logged in.')
+  //             : const Text('Your email or password is incorrect.'),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //             child: const Text('OK'),
+  //           )
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
+
+  // void login() async {
+  //   try {
+  //     final UserCredential userCredential =
+  //         await _auth.signInWithEmailAndPassword(
+  //       email: _emailController.value.text,
+  //       password: _passwordController.value.text,
+  //     );
+
+  //     // If successful, navigate to next page
+  //     // ignore: use_build_context_synchronously
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => CashierPage(),
+  //       ),
+  //     );
+  //     _showDialog(true);
+  //   } on FirebaseAuthException catch (e) {
+  //     if (e.code == 'user-not-found') {
+  //       // Show error message using e.message
+  //       if (kDebugMode) {
+  //         print('No user found for that email.');
+  //       }
+  //     } else if (e.code == 'wrong-password') {
+  //       // Show error message using e.message
+  //       if (kDebugMode) {
+  //         print('Wrong password provided for that user.');
+  //       }
+  //     }
+  //     _showDialog(false);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            SvgPicture.asset(
-              'assets/images/background.svg',
-              height: 300,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Text(
-              'Login In Now',
-              style: GoogleFonts.poppins(
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-                color: const Color(0xff7C83FD),
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 45.0,
               ),
-            ),
-            Text(
-              'Kindly Register to continue using our app',
-              style: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: const Color(0xff7C83FD),
+              const Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 30.0,
+                  horizontal: 20.0,
+                ),
+                child: Text(
+                  "Welcome Back! \nGlad to see you again",
+                  style: TextStyle(
+                    color: Color(0xff7C83FD),
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
+              CustomizedTextfield(
+                myController: _emailController,
+                hintText: "Enter your Email",
+                isPassword: false,
+              ),
+              CustomizedTextfield(
+                myController: _passwordController,
+                hintText: "Enter your Password",
+                isPassword: true,
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 10,
+                    horizontal: 20.0,
+                    vertical: 10.0,
                   ),
-                  child: TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Email Field must not be empty';
-                      }
-                      return null;
-                    },
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      border: OutlineInputBorder(),
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: 25.0,
-                        horizontal: 10.0,
+                  child: InkWell(
+                    onTap: () {},
+                    child: const Text(
+                      "Forgot Password?",
+                      style: TextStyle(
+                        color: Color(0xff6A707C),
+                        fontSize: 15,
                       ),
                     ),
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (_) => FocusScope.of(context)
-                        .nextFocus(), // move focus to next
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 10,
-                  ),
-                  child: TextFormField(
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (_) => FocusScope.of(context)
-                        .nextFocus(), // move focus to next
-                    obscureText: !_showPassword,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Password Field must not be empty';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      hintText: "Password",
-                      border: const OutlineInputBorder(),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 25.0,
-                        horizontal: 10.0,
+              ),
+              CustomizedButton(
+                buttonText: "Login",
+                buttonColor: const Color(0xff7C83FD),
+                textColor: Colors.white,
+                borderColor: const Color(0xff7C83FD),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const BottomBar(),
+                    ),
+                  );
+                },
+                // onPressed: login,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 20.0,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 1,
+                      width: MediaQuery.of(context).size.height * 0.15,
+                      color: Colors.black,
+                    ),
+                    const SizedBox(
+                      width: 10.0,
+                    ),
+                    const Text(
+                      "or Login with",
+                      style: TextStyle(
+                        color: Colors.black,
                       ),
-                      suffixIcon: GestureDetector(
-                        onTap: () {
-                          _togglevisibility();
-                        },
-                        child: Container(
-                          height: 50,
-                          width: 70,
-                          padding: const EdgeInsets.symmetric(vertical: 13),
-                          child: Text(
-                            _showPassword ? "Hide" : "Show",
-                            style: GoogleFonts.poppins(
-                              color: const Color(0xff7C83FD),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                    ),
+                    const SizedBox(
+                      width: 10.0,
+                    ),
+                    Container(
+                      height: 1,
+                      width: MediaQuery.of(context).size.height * 0.15,
+                      color: Colors.black,
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black, width: 1),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(
+                          CarbonIcons.logo_google,
+                          // color: Colors.blue,
                         ),
+                        onPressed: () {},
                       ),
                     ),
-                  ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: InkWell(
-                      onTap: () {},
-                      child: Text(
-                        "Forgot Password?",
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xff7C83FD),
-                        ),
-                        textAlign: TextAlign.right,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Don't have an account?",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
                       ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: ElevatedButton(
-                      onPressed: () {
+                    GestureDetector(
+                      onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const BottomBar(),
+                            builder: (context) => const RegisterScreen(),
                           ),
                         );
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xff7C83FD),
-                        minimumSize: Size(
-                          MediaQuery.of(context).size.width,
-                          70,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: Text(
-                        'Login',
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
+                      child: const Text(
+                        " Register Now",
+                        style: TextStyle(
+                          color: Color(0xff7C83FD),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Do not have an Account?',
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff7C83FD),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const RegisterScreen(
-                                title: 'Dinny Azizah',
-                              ),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'Sign Now',
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: const Color(0xff7C83FD),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 40,
-                    right: 40,
-                    bottom: 40,
-                  ),
-                  child: Text(
-                    'or login with',
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xff7C83FD),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 30,
-                    right: 30,
-                    bottom: 30,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: const [
-                      CircleAvatar(
-                        backgroundImage: AssetImage(
-                          'assets/icons/facebook.png',
-                        ),
-                      ),
-                      CircleAvatar(
-                        backgroundImage: AssetImage(
-                          'assets/icons/google.png',
-                        ),
-                        backgroundColor: Colors.white,
-                      ),
-                      CircleAvatar(
-                        backgroundImage: AssetImage(
-                          'assets/icons/twitter.png',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
