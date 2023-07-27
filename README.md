@@ -1,4 +1,4 @@
-# bejo
+# BEJO
 
 A new Flutter project.
 
@@ -14,3 +14,7 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Documentation
+![bejo](https://github.com/callmeeve/Bejo-Education-App/assets/87850718/b46f4e83-0f0a-4502-a91a-2c2ac7db811b)
+
